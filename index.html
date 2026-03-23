@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Cricket Viral App</title>
+<title>Cricket Pro+ App</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -14,7 +14,7 @@ body {
 }
 
 header {
-  background: #ff3c00;
+  background: linear-gradient(90deg,#ff3c00,#ff7a00);
   padding: 15px;
   font-size: 22px;
   font-weight: bold;
@@ -24,7 +24,7 @@ header {
   background: #1e293b;
   margin: 15px;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 button {
@@ -33,27 +33,68 @@ button {
   padding: 10px 20px;
   margin-top: 10px;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 6px;
+}
+
+.score {
+  font-size: 20px;
+  color: #00ffcc;
+  margin-top: 10px;
+}
+
+.trend {
+  color: #00ffcc;
+  font-size: 14px;
 }
 </style>
-
 </head>
 
 <body>
 
-<header>🔥 Cricket Viral App</header>
+<header>🔥 Cricket Pro+ App</header>
 
 <div class="card">
   <h3>Virat Kohli 🔥</h3>
-  <p>King Kohli is back in form!</p>
-  <button onclick="alert('Video Coming Soon')">Watch</button>
+  <p class="trend">Trending Now 🚀</p>
+  <button onclick="window.open('https://www.youtube.com/results?search_query=virat+kohli+today')">Watch Now</button>
 </div>
 
 <div class="card">
-  <h3>IPL Trending 🚀</h3>
-  <p>आज का viral moment</p>
-  <button onclick="alert('Coming Soon')">Watch</button>
+  <h3>IPL Highlights 🏏</h3>
+  <p class="trend">Latest Match Moments</p>
+  <button onclick="window.open('https://www.youtube.com/results?search_query=ipl+match+today+highlights')">Watch Now</button>
 </div>
+
+<div class="card">
+  <h3>Live Score ⚡</h3>
+  <div class="score" id="score">Loading...</div>
+</div>
+
+<div class="card">
+  <h3>Fan Poll 🗳️</h3>
+  <p>Best Player?</p>
+  <button onclick="vote('Kohli')">Kohli</button>
+  <button onclick="vote('Rohit')">Rohit</button>
+  <p id="result"></p>
+</div>
+
+<script>
+// Fake live score
+setInterval(() => {
+  let runs = Math.floor(Math.random()*200)+100;
+  let wickets = Math.floor(Math.random()*10);
+  document.getElementById("score").innerText = "IND " + runs + "/" + wickets;
+}, 2000);
+
+// Poll system
+let votes = {Kohli:0, Rohit:0};
+
+function vote(player){
+  votes[player]++;
+  document.getElementById("result").innerText =
+    "Kohli: " + votes.Kohli + " | Rohit: " + votes.Rohit;
+}
+</script>
 
 </body>
 </html>

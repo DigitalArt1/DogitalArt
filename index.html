@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CricNext Master</title>
+<title>CricNext Super</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -61,12 +61,6 @@ color:white;
 font-size:16px;
 }
 
-.player{
-display:flex;
-justify-content:space-between;
-margin-top:8px;
-}
-
 .search{
 width:100%;
 padding:10px;
@@ -75,12 +69,18 @@ border:none;
 margin-top:10px;
 }
 
+.install{
+background:#22c55e;
+margin-top:10px;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<header>⚡ CricNext Master</header>
+<header>⚡ CricNext Super</header>
 
 <!-- HOME -->
 
@@ -90,26 +90,15 @@ margin-top:10px;
 
 <h3>Trending Players</h3>
 
-<div class="player">
-<span>Virat Kohli</span>
-<button onclick="searchPlayer('virat kohli highlights')">Watch</button>
-</div>
-
-<div class="player">
-<span>Rohit Sharma</span>
-<button onclick="searchPlayer('rohit sharma batting')">Watch</button>
-</div>
-
-<div class="player">
-<span>Jasprit Bumrah</span>
-<button onclick="searchPlayer('bumrah yorker')">Watch</button>
-</div>
+<button onclick="searchPlayer('virat kohli highlights')">Virat Kohli</button>
+<button onclick="searchPlayer('rohit sharma batting')">Rohit Sharma</button>
+<button onclick="searchPlayer('bumrah yorker')">Jasprit Bumrah</button>
 
 </div>
 
 <div class="card">
 
-<h3>Quick Match Links</h3>
+<h3>Quick Cricket Links</h3>
 
 <button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
 Live Scores
@@ -121,6 +110,8 @@ IPL Schedule
 
 </div>
 
+<button id="installBtn" class="install">Install App</button>
+
 </div>
 
 <!-- LIVE -->
@@ -129,7 +120,7 @@ IPL Schedule
 
 <div class="card">
 
-<h3>Live Score</h3>
+<h3>Live Cricket Score</h3>
 
 <button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
 Open Live Score
@@ -165,217 +156,6 @@ Open News
 
 <div class="card">
 
-<h3>Search Highlights</h3>
-
-<input id="searchBox" class="search" placeholder="Search player or match">
-
-<button onclick="searchVideo()">Search</button>
-
-</div>
-
-</div>
-
-<!-- NAV -->
-
-<div class="nav">
-
-<button onclick="show('home')">Home</button>
-<button onclick="show('live')">Live</button>
-<button onclick="show('news')">News</button>
-<button onclick="show('video')">Videos</button>
-
-</div>
-
-<script>
-
-function show(section){
-
-document.querySelectorAll('.section').forEach(s=>{
-s.classList.remove('active')
-})
-
-document.getElementById(section).classList.add('active')
-
-}
-
-function searchPlayer(name){
-window.open("https://www.youtube.com/results?search_query="+name)
-}
-
-function searchVideo(){
-
-let q=document.getElementById("searchBox").value
-
-window.open("https://www.youtube.com/results?search_query="+q)
-
-}
-
-function openSite(url){
-window.open(url)
-}
-
-</script>
-
-</body>
-</html>
-<div id="live" class="section">
-
-<div class="card">
-
-<h3>Live Cricket Score</h3>
-
-<button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
-Open Live Score
-</button>
-
-<button onclick="openSite('https://www.espncricinfo.com/live-cricket-score')">
-Alt Live Score
-</button>
-
-</div>
-
-</div>
-
-
-<!-- NEWS -->
-
-<div id="news" class="section">
-
-<div class="card">
-
-<h3>Latest Cricket News</h3>
-
-<button onclick="openSite('https://www.espncricinfo.com/cricket-news')">
-Open News
-</button>
-
-</div>
-
-</div>
-
-
-<!-- VIDEOS -->
-
-<div id="video" class="section">
-
-<div class="card">
-
-<h3>Search Cricket Highlights</h3>
-
-<input id="searchBox" placeholder="Search player or match">
-
-<button onclick="searchVideo()">Search</button>
-
-</div>
-
-</div>
-
-
-<!-- NAVIGATION -->
-
-<div class="nav">
-
-<button onclick="show('home')">Home</button>
-
-<button onclick="show('live')">Live</button>
-
-<button onclick="show('news')">News</button>
-
-<button onclick="show('video')">Videos</button>
-
-</div>
-
-
-<script>
-
-function show(section){
-
-document.querySelectorAll('.section').forEach(s=>{
-s.classList.remove('active')
-})
-
-document.getElementById(section).classList.add('active')
-
-}
-
-function searchPlayer(name){
-
-window.open("https://www.youtube.com/results?search_query="+name)
-
-}
-
-function searchVideo(){
-
-let q=document.getElementById("searchBox").value
-
-window.open("https://www.youtube.com/results?search_query="+q)
-
-}
-
-function openSite(url){
-
-window.open(url)
-
-}
-
-/* MATCH COUNTDOWN */
-
-var countDownDate = new Date("Dec 30, 2026 19:00:00").getTime();
-
-var x = setInterval(function(){
-
-var now = new Date().getTime();
-
-var distance = countDownDate - now;
-
-var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-document.getElementById("timer").innerHTML =
-days + "d " + hours + "h " + minutes + "m ";
-
-}, 1000);
-
-</script>
-
-</body>
-
-</html>
-<div class="card">
-
-<h3>Live Cricket Score</h3>
-
-<iframe id="scoreFrame"
-src="https://www.cricbuzz.com/cricket-match/live-scores"
-width="100%" height="450"></iframe>
-
-<button onclick="refreshScore()">Refresh Score</button>
-
-</div>
-
-</div>
-
-<!-- NEWS -->
-<div id="news" class="section">
-
-<div class="card">
-
-<h3>Latest Cricket News</h3>
-
-<button onclick="openSite('https://www.espncricinfo.com/cricket-news')">
-Open News
-</button>
-
-</div>
-
-</div>
-
-<!-- VIDEOS -->
-<div id="video" class="section">
-
-<div class="card">
-
 <h3>Search Cricket Highlights</h3>
 
 <input id="searchBox" class="search" placeholder="Search player or match">
@@ -386,7 +166,8 @@ Open News
 
 </div>
 
-<!-- NAV -->
+<!-- NAVIGATION -->
+
 <div class="nav">
 
 <button onclick="show('home')">Home</button>
@@ -409,9 +190,7 @@ document.getElementById(section).classList.add('active')
 }
 
 function searchPlayer(name){
-
 window.open("https://www.youtube.com/results?search_query="+name)
-
 }
 
 function searchVideo(){
@@ -423,137 +202,32 @@ window.open("https://www.youtube.com/results?search_query="+q)
 }
 
 function openSite(url){
-
 window.open(url)
+}
+
+/* Install PWA */
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+
+e.preventDefault();
+
+deferredPrompt = e;
+
+document.getElementById("installBtn").style.display="block";
+
+});
+
+document.getElementById("installBtn").addEventListener("click", () => {
+
+if(deferredPrompt){
+
+deferredPrompt.prompt();
 
 }
 
-function refreshScore(){
-
-document.getElementById("scoreFrame").src =
-document.getElementById("scoreFrame").src
-
-}
-
-</script>
-
-</body>
-</html><div class="card">
-
-<h3>Live Score</h3>
-
-<iframe id="scoreFrame"
-src="https://www.cricbuzz.com/cricket-match/live-scores"
-width="100%" height="450"></iframe>
-
-<button onclick="refreshScore()">Refresh Score</button>
-
-</div>
-
-</div>
-
-<!-- NEWS -->
-<div id="news" class="section">
-
-<div class="card">
-<h3>Cricket News</h3>
-
-<button onclick="window.open('https://www.espncricinfo.com/cricket-news')">
-Latest News
-</button>
-
-</div>
-
-</div>
-
-<!-- VIDEOS -->
-<div id="video" class="section">
-
-<div class="card">
-
-<h3>IPL Highlights</h3>
-
-<button onclick="window.open('https://www.youtube.com/results?search_query=ipl highlights')">
-Watch Highlights
-</button>
-
-</div>
-
-</div>
-
-<!-- NAVIGATION -->
-<div class="nav">
-
-<button onclick="show('home')">Home</button>
-<button onclick="show('score')">Live</button>
-<button onclick="show('news')">News</button>
-<button onclick="show('video')">Videos</button>
-
-</div>
-
-<script>
-
-function show(section){
-
-document.querySelectorAll('.section').forEach(s=>{
-s.classList.remove('active')
-})
-
-document.getElementById(section).classList.add('active')
-
-}
-
-function searchPlayer(name){
-window.open("https://www.youtube.com/results?search_query="+name)
-}
-
-function refreshScore(){
-document.getElementById("scoreFrame").src =
-document.getElementById("scoreFrame").src
-}
-
-</script>
-
-</body>
-</html>
-</div>
-
-
-<div id="video" class="section">
-
-<div class="card">
-<h3>IPL Highlights</h3>
-
-<button onclick="window.open('https://www.youtube.com/results?search_query=ipl+highlights')">
-Watch Highlights
-</button>
-
-</div>
-
-</div>
-
-
-<div class="nav">
-
-<button onclick="show('home')">Home</button>
-<button onclick="show('score')">Live</button>
-<button onclick="show('news')">News</button>
-<button onclick="show('video')">Videos</button>
-
-</div>
-
-
-<script>
-
-function show(section){
-
-document.querySelectorAll('.section').forEach(s=>{
-s.classList.remove('active')
-})
-
-document.getElementById(section).classList.add('active')
-
-}
+});
 
 </script>
 

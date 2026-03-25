@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>CricNext Pro</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+<!DOCTYPE html><html>
+<head>
+<title>CricNext Super</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
 
 body{
 margin:0;
@@ -44,6 +42,17 @@ margin:5px 0;
 
 .status{
 color:#22c55e;
+font-weight:bold;
+}
+
+button{
+background:orange;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+margin-top:10px;
+color:black;
+font-weight:bold;
 }
 
 .nav{
@@ -60,71 +69,38 @@ padding:10px 0;
 background:none;
 color:white;
 font-size:16px;
-border:none;
 }
 
-</style>
-</head>
+.search{
+width:100%;
+padding:10px;
+border-radius:6px;
+border:none;
+margin-top:10px;
+}
 
-<body>
+.install{
+background:#22c55e;
+margin-top:10px;
+}
 
-<header>⚡ CricNext Pro Live</header>
-
-<!-- HOME -->
-
-<div id="home" class="section active">
-
-<div class="card">
-
-<h3>Trending Players</h3>
-
-<button onclick="searchPlayer('virat kohli highlights')">Virat Kohli</button>
+</style></head><body><header>⚡ CricNext Super</header><!-- HOME --><div id="home" class="section active"><div class="card"><h3>Trending Players</h3><button onclick="searchPlayer('virat kohli highlights')">Virat Kohli</button>
 <button onclick="searchPlayer('rohit sharma batting')">Rohit Sharma</button>
-<button onclick="searchPlayer('bumrah yorker')">Jasprit Bumrah</button>
+<button onclick="searchPlayer('jasprit bumrah yorker')">Jasprit Bumrah</button>
 
-</div>
+</div><div class="card"><h3>Quick Links</h3><button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">Live Scores</button>
 
-</div>
+<button onclick="openSite('https://www.espncricinfo.com/cricket-news')">Cricket News</button>
 
-<!-- LIVE MATCHES -->
+</div><button id="installBtn" class="install">Install App</button>
 
-<div id="live" class="section">
+</div><!-- LIVE --><div id="live" class="section"><div class="card"><h3>Loading Live Matches...</h3></div></div><!-- VIDEOS --><div id="video" class="section"><div class="card"><h3>Search Cricket Highlights</h3><input id="searchBox" class="search" placeholder="Search player or match"><button onclick="searchVideo()">Search</button>
 
-<div class="card">
-
-<h3>Loading Live Matches...</h3>
-
-</div>
-
-</div>
-
-<!-- VIDEOS -->
-
-<div id="video" class="section">
-
-<div class="card">
-
-<h3>Search Cricket Highlights</h3>
-
-<input id="searchBox" placeholder="Search player or match">
-
-<button onclick="searchVideo()">Search</button>
-
-</div>
-
-</div>
-
-<!-- NAVIGATION -->
-
-<div class="nav">
-
-<button onclick="show('home')">Home</button>
+</div></div><!-- NAVIGATION --><div class="nav"><button onclick="show('home')">Home</button>
 <button onclick="show('live')">Live</button>
 <button onclick="show('video')">Videos</button>
 
-</div>
-
-<script>
+</div><script>
 
 const API_KEY = "eec8a601-3746-4b6f-992f-ea00d5506fb8";
 
@@ -150,6 +126,10 @@ window.open("https://www.youtube.com/results?search_query="+q)
 
 }
 
+function openSite(url){
+window.open(url)
+}
+
 async function loadMatches(){
 
 try{
@@ -161,6 +141,8 @@ let response = await fetch(
 let data = await response.json()
 
 let html=""
+
+if(data.data && data.data.length>0){
 
 data.data.slice(0,10).forEach(match=>{
 
@@ -184,6 +166,12 @@ html+=`
 
 })
 
+}else{
+
+html="<div class='card'>No live matches right now</div>"
+
+}
+
 document.getElementById("live").innerHTML=html
 
 }catch(e){
@@ -199,7 +187,5 @@ loadMatches()
 
 setInterval(loadMatches,15000)
 
-</script>
-
-</body>
+</script></body>
 </html>

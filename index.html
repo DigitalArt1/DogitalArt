@@ -1,74 +1,148 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CricNext - Live Cricket</title>
+<title>CricNext</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
 margin:0;
 font-family:Arial;
 background:#0f172a;
 color:white;
-text-align:center;
 }
 
 header{
 background:#ff3c00;
 padding:15px;
+text-align:center;
 font-size:22px;
 font-weight:bold;
 }
 
+.section{
+padding:20px;
+display:none;
+}
+
+.active{
+display:block;
+}
+
 .card{
 background:#1e293b;
-margin:15px;
+margin-bottom:15px;
 padding:15px;
-border-radius:12px;
+border-radius:10px;
 }
 
 button{
 background:orange;
 border:none;
 padding:10px 20px;
+border-radius:5px;
 margin-top:10px;
-font-size:16px;
-border-radius:6px;
 }
+
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:#020617;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+}
+
+.nav button{
+background:none;
+color:white;
+font-size:16px;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>⚡ CricNext - Live Cricket</header>
+<header>⚡ CricNext</header>
+
+<div id="home" class="section active">
+
+<div class="card">
+<h3>Trending Player</h3>
+<p>Virat Kohli 🔥</p>
+<button onclick="window.open('https://www.youtube.com/results?search_query=virat+kohli')">Watch</button>
+</div>
+
+</div>
+
+
+<div id="score" class="section">
 
 <div class="card">
 <h3>Live Cricket Score</h3>
-<button onclick="window.open('https://www.cricbuzz.com/cricket-match/live-scores')">
-Check Live Score
-</button>
+
+<iframe src="https://www.cricbuzz.com/cricket-match/live-scores"
+width="100%" height="400"></iframe>
+
 </div>
 
-<div class="card">
-<h3>IPL Fixtures</h3>
-<button onclick="window.open('https://www.espncricinfo.com/series/ipl')">
-View IPL Schedule
-</button>
 </div>
+
+
+<div id="news" class="section">
+
+<div class="card">
+<h3>Latest Cricket News</h3>
+
+<button onclick="window.open('https://www.espncricinfo.com/')">
+Open News
+</button>
+
+</div>
+
+</div>
+
+
+<div id="video" class="section">
 
 <div class="card">
 <h3>IPL Highlights</h3>
+
 <button onclick="window.open('https://www.youtube.com/results?search_query=ipl+highlights')">
 Watch Highlights
 </button>
+
 </div>
 
-<div class="card">
-<h3>Virat Kohli Videos</h3>
-<button onclick="window.open('https://www.youtube.com/results?search_query=virat+kohli+latest')">
-Watch Now
-</button>
 </div>
 
-<div class="card">
-<h3
+
+<div class="nav">
+
+<button onclick="show('home')">Home</button>
+<button onclick="show('score')">Live</button>
+<button onclick="show('news')">News</button>
+<button onclick="show('video')">Videos</button>
+
+</div>
+
+
+<script>
+
+function show(section){
+
+document.querySelectorAll('.section').forEach(s=>{
+s.classList.remove('active')
+})
+
+document.getElementById(section).classList.add('active')
+
+}
+
+</script>
+
+</body>
+</html>

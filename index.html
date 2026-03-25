@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CricNext Pro Max</title>
+<title>CricNext Ultimate</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -41,7 +41,7 @@ button{
 background:orange;
 border:none;
 padding:10px 20px;
-border-radius:5px;
+border-radius:6px;
 margin-top:10px;
 }
 
@@ -61,48 +61,172 @@ color:white;
 font-size:16px;
 }
 
-.search{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:none;
+.countdown{
+font-size:20px;
 margin-top:10px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<header>⚡ CricNext Pro Max</header>
+<header>⚡ CricNext Ultimate</header>
 
 <!-- HOME -->
+
 <div id="home" class="section active">
 
 <div class="card">
+
 <h3>Trending Players</h3>
 
 <button onclick="searchPlayer('virat kohli highlights')">Virat Kohli</button>
+
 <button onclick="searchPlayer('rohit sharma batting')">Rohit Sharma</button>
-<button onclick="searchPlayer('bumrah bowling')">Jasprit Bumrah</button>
+
+<button onclick="searchPlayer('bumrah yorker')">Jasprit Bumrah</button>
 
 </div>
 
 <div class="card">
 
-<h3>Quick Match Links</h3>
+<h3>Next Match Countdown</h3>
 
-<button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">Live Scores</button>
-
-<button onclick="openSite('https://www.espncricinfo.com/series/ipl')">IPL Schedule</button>
+<div id="timer" class="countdown"></div>
 
 </div>
 
 </div>
 
-<!-- LIVE -->
+
+<!-- LIVE SCORE -->
+
 <div id="live" class="section">
 
+<div class="card">
+
+<h3>Live Cricket Score</h3>
+
+<button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
+Open Live Score
+</button>
+
+<button onclick="openSite('https://www.espncricinfo.com/live-cricket-score')">
+Alt Live Score
+</button>
+
+</div>
+
+</div>
+
+
+<!-- NEWS -->
+
+<div id="news" class="section">
+
+<div class="card">
+
+<h3>Latest Cricket News</h3>
+
+<button onclick="openSite('https://www.espncricinfo.com/cricket-news')">
+Open News
+</button>
+
+</div>
+
+</div>
+
+
+<!-- VIDEOS -->
+
+<div id="video" class="section">
+
+<div class="card">
+
+<h3>Search Cricket Highlights</h3>
+
+<input id="searchBox" placeholder="Search player or match">
+
+<button onclick="searchVideo()">Search</button>
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="nav">
+
+<button onclick="show('home')">Home</button>
+
+<button onclick="show('live')">Live</button>
+
+<button onclick="show('news')">News</button>
+
+<button onclick="show('video')">Videos</button>
+
+</div>
+
+
+<script>
+
+function show(section){
+
+document.querySelectorAll('.section').forEach(s=>{
+s.classList.remove('active')
+})
+
+document.getElementById(section).classList.add('active')
+
+}
+
+function searchPlayer(name){
+
+window.open("https://www.youtube.com/results?search_query="+name)
+
+}
+
+function searchVideo(){
+
+let q=document.getElementById("searchBox").value
+
+window.open("https://www.youtube.com/results?search_query="+q)
+
+}
+
+function openSite(url){
+
+window.open(url)
+
+}
+
+/* MATCH COUNTDOWN */
+
+var countDownDate = new Date("Dec 30, 2026 19:00:00").getTime();
+
+var x = setInterval(function(){
+
+var now = new Date().getTime();
+
+var distance = countDownDate - now;
+
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+document.getElementById("timer").innerHTML =
+days + "d " + hours + "h " + minutes + "m ";
+
+}, 1000);
+
+</script>
+
+</body>
+
+</html>
 <div class="card">
 
 <h3>Live Cricket Score</h3>

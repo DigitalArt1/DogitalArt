@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CricNext Live</title>
+<title>CricNext Pro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -37,12 +37,13 @@ margin-bottom:15px;
 border-radius:12px;
 }
 
-button{
-background:orange;
-border:none;
-padding:10px 20px;
-border-radius:6px;
-margin-top:10px;
+.team{
+font-size:18px;
+margin:5px 0;
+}
+
+.status{
+color:#22c55e;
 }
 
 .nav{
@@ -59,28 +60,15 @@ padding:10px 0;
 background:none;
 color:white;
 font-size:16px;
-}
-
-.search{
-width:100%;
-padding:10px;
-border-radius:6px;
 border:none;
-margin-top:10px;
-}
-
-.install{
-background:#22c55e;
-margin-top:10px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<header>⚡ CricNext Live</header>
+<header>⚡ CricNext Pro Live</header>
 
 <!-- HOME -->
 
@@ -96,26 +84,9 @@ margin-top:10px;
 
 </div>
 
-<div class="card">
-
-<h3>Quick Links</h3>
-
-<button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
-Live Scores
-</button>
-
-<button onclick="openSite('https://www.espncricinfo.com/cricket-news')">
-Cricket News
-</button>
-
 </div>
 
-<button id="installBtn" class="install">Install App</button>
-
-</div>
-
-
-<!-- LIVE -->
+<!-- LIVE MATCHES -->
 
 <div id="live" class="section">
 
@@ -127,23 +98,21 @@ Cricket News
 
 </div>
 
-
 <!-- VIDEOS -->
 
 <div id="video" class="section">
 
 <div class="card">
 
-<h3>Search Highlights</h3>
+<h3>Search Cricket Highlights</h3>
 
-<input id="searchBox" class="search" placeholder="Search player or match">
+<input id="searchBox" placeholder="Search player or match">
 
 <button onclick="searchVideo()">Search</button>
 
 </div>
 
 </div>
-
 
 <!-- NAVIGATION -->
 
@@ -154,7 +123,6 @@ Cricket News
 <button onclick="show('video')">Videos</button>
 
 </div>
-
 
 <script>
 
@@ -182,13 +150,6 @@ window.open("https://www.youtube.com/results?search_query="+q)
 
 }
 
-function openSite(url){
-window.open(url)
-}
-
-
-/* LIVE SCORE API */
-
 async function loadMatches(){
 
 try{
@@ -199,19 +160,23 @@ let response = await fetch(
 
 let data = await response.json()
 
-let liveHTML=""
+let html=""
 
-data.data.slice(0,5).forEach(match=>{
+data.data.slice(0,10).forEach(match=>{
 
-liveHTML += `
+html+=`
 
 <div class="card">
 
 <h3>${match.name}</h3>
 
-<p>Status: ${match.status}</p>
+<div class="team">${match.teams[0]}</div>
 
-<p>${match.teams[0]} vs ${match.teams[1]}</p>
+<div class="team">vs</div>
+
+<div class="team">${match.teams[1]}</div>
+
+<p class="status">${match.status}</p>
 
 </div>
 
@@ -219,18 +184,20 @@ liveHTML += `
 
 })
 
-document.getElementById("live").innerHTML=liveHTML
+document.getElementById("live").innerHTML=html
 
-}catch(err){
+}catch(e){
 
 document.getElementById("live").innerHTML=
-"<div class='card'>Live score unavailable</div>"
+"<div class='card'>Live data unavailable</div>"
 
 }
 
 }
 
 loadMatches()
+
+setInterval(loadMatches,15000)
 
 </script>
 

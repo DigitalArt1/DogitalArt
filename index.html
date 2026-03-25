@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CricNext Super</title>
+<title>CricNext Live</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -80,7 +80,7 @@ margin-top:10px;
 
 <body>
 
-<header>⚡ CricNext Super</header>
+<header>⚡ CricNext Live</header>
 
 <!-- HOME -->
 
@@ -98,14 +98,14 @@ margin-top:10px;
 
 <div class="card">
 
-<h3>Quick Cricket Links</h3>
+<h3>Quick Links</h3>
 
 <button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
 Live Scores
 </button>
 
-<button onclick="openSite('https://www.espncricinfo.com/series/ipl')">
-IPL Schedule
+<button onclick="openSite('https://www.espncricinfo.com/cricket-news')">
+Cricket News
 </button>
 
 </div>
@@ -114,41 +114,19 @@ IPL Schedule
 
 </div>
 
+
 <!-- LIVE -->
 
 <div id="live" class="section">
 
 <div class="card">
 
-<h3>Live Cricket Score</h3>
-
-<button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
-Open Live Score
-</button>
-
-<button onclick="openSite('https://www.espncricinfo.com/live-cricket-score')">
-Alt Score
-</button>
+<h3>Loading Live Matches...</h3>
 
 </div>
 
 </div>
 
-<!-- NEWS -->
-
-<div id="news" class="section">
-
-<div class="card">
-
-<h3>Latest Cricket News</h3>
-
-<button onclick="openSite('https://www.espncricinfo.com/cricket-news')">
-Open News
-</button>
-
-</div>
-
-</div>
 
 <!-- VIDEOS -->
 
@@ -156,7 +134,7 @@ Open News
 
 <div class="card">
 
-<h3>Search Cricket Highlights</h3>
+<h3>Search Highlights</h3>
 
 <input id="searchBox" class="search" placeholder="Search player or match">
 
@@ -166,18 +144,21 @@ Open News
 
 </div>
 
+
 <!-- NAVIGATION -->
 
 <div class="nav">
 
 <button onclick="show('home')">Home</button>
 <button onclick="show('live')">Live</button>
-<button onclick="show('news')">News</button>
 <button onclick="show('video')">Videos</button>
 
 </div>
 
+
 <script>
+
+const API_KEY = "eec8a601-3746-4b6f-992f-ea00d5506fb8";
 
 function show(section){
 
@@ -205,29 +186,51 @@ function openSite(url){
 window.open(url)
 }
 
-/* Install PWA */
 
-let deferredPrompt;
+/* LIVE SCORE API */
 
-window.addEventListener('beforeinstallprompt', (e) => {
+async function loadMatches(){
 
-e.preventDefault();
+try{
 
-deferredPrompt = e;
+let response = await fetch(
+"https://api.cricketdata.org/v1/matches?apikey="+API_KEY
+)
 
-document.getElementById("installBtn").style.display="block";
+let data = await response.json()
 
-});
+let liveHTML=""
 
-document.getElementById("installBtn").addEventListener("click", () => {
+data.data.slice(0,5).forEach(match=>{
 
-if(deferredPrompt){
+liveHTML += `
 
-deferredPrompt.prompt();
+<div class="card">
+
+<h3>${match.name}</h3>
+
+<p>Status: ${match.status}</p>
+
+<p>${match.teams[0]} vs ${match.teams[1]}</p>
+
+</div>
+
+`
+
+})
+
+document.getElementById("live").innerHTML=liveHTML
+
+}catch(err){
+
+document.getElementById("live").innerHTML=
+"<div class='card'>Live score unavailable</div>"
 
 }
 
-});
+}
+
+loadMatches()
 
 </script>
 

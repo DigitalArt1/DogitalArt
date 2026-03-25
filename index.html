@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CricNext Ultimate</title>
+<title>CricNext Master</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -34,7 +34,7 @@ display:block;
 background:#1e293b;
 padding:15px;
 margin-bottom:15px;
-border-radius:10px;
+border-radius:12px;
 }
 
 button{
@@ -61,18 +61,26 @@ color:white;
 font-size:16px;
 }
 
-.countdown{
-font-size:20px;
+.player{
+display:flex;
+justify-content:space-between;
+margin-top:8px;
+}
+
+.search{
+width:100%;
+padding:10px;
+border-radius:6px;
+border:none;
 margin-top:10px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<header>⚡ CricNext Ultimate</header>
+<header>⚡ CricNext Master</header>
 
 <!-- HOME -->
 
@@ -82,27 +90,134 @@ margin-top:10px;
 
 <h3>Trending Players</h3>
 
-<button onclick="searchPlayer('virat kohli highlights')">Virat Kohli</button>
+<div class="player">
+<span>Virat Kohli</span>
+<button onclick="searchPlayer('virat kohli highlights')">Watch</button>
+</div>
 
-<button onclick="searchPlayer('rohit sharma batting')">Rohit Sharma</button>
+<div class="player">
+<span>Rohit Sharma</span>
+<button onclick="searchPlayer('rohit sharma batting')">Watch</button>
+</div>
 
-<button onclick="searchPlayer('bumrah yorker')">Jasprit Bumrah</button>
+<div class="player">
+<span>Jasprit Bumrah</span>
+<button onclick="searchPlayer('bumrah yorker')">Watch</button>
+</div>
 
 </div>
 
 <div class="card">
 
-<h3>Next Match Countdown</h3>
+<h3>Quick Match Links</h3>
 
-<div id="timer" class="countdown"></div>
+<button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
+Live Scores
+</button>
+
+<button onclick="openSite('https://www.espncricinfo.com/series/ipl')">
+IPL Schedule
+</button>
 
 </div>
 
 </div>
 
+<!-- LIVE -->
 
-<!-- LIVE SCORE -->
+<div id="live" class="section">
 
+<div class="card">
+
+<h3>Live Score</h3>
+
+<button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
+Open Live Score
+</button>
+
+<button onclick="openSite('https://www.espncricinfo.com/live-cricket-score')">
+Alt Score
+</button>
+
+</div>
+
+</div>
+
+<!-- NEWS -->
+
+<div id="news" class="section">
+
+<div class="card">
+
+<h3>Latest Cricket News</h3>
+
+<button onclick="openSite('https://www.espncricinfo.com/cricket-news')">
+Open News
+</button>
+
+</div>
+
+</div>
+
+<!-- VIDEOS -->
+
+<div id="video" class="section">
+
+<div class="card">
+
+<h3>Search Highlights</h3>
+
+<input id="searchBox" class="search" placeholder="Search player or match">
+
+<button onclick="searchVideo()">Search</button>
+
+</div>
+
+</div>
+
+<!-- NAV -->
+
+<div class="nav">
+
+<button onclick="show('home')">Home</button>
+<button onclick="show('live')">Live</button>
+<button onclick="show('news')">News</button>
+<button onclick="show('video')">Videos</button>
+
+</div>
+
+<script>
+
+function show(section){
+
+document.querySelectorAll('.section').forEach(s=>{
+s.classList.remove('active')
+})
+
+document.getElementById(section).classList.add('active')
+
+}
+
+function searchPlayer(name){
+window.open("https://www.youtube.com/results?search_query="+name)
+}
+
+function searchVideo(){
+
+let q=document.getElementById("searchBox").value
+
+window.open("https://www.youtube.com/results?search_query="+q)
+
+}
+
+function openSite(url){
+window.open(url)
+}
+
+</script>
+
+</body>
+</html>
 <div id="live" class="section">
 
 <div class="card">

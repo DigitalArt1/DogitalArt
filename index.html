@@ -1,201 +1,121 @@
 <!DOCTYPE html><html>
 <head>
-<title>CricNext Pro</title>
+<title>CricNext Live</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
+body{margin:0;font-family:Arial;background:#0f172a;color:white}
+header{background:#16a34a;padding:14px;text-align:center;font-size:22px;font-weight:bold}
 
-body{
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
-}
+.tabs{display:flex;justify-content:space-around;background:#111827}
+.tabs button{flex:1;padding:12px;background:none;border:none;color:#9ca3af;font-size:15px}
+.tabs button.active{color:white;border-bottom:2px solid #22c55e}
 
-header{
-background:#ff3c00;
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
+.section{padding:16px;display:none}
+.section.active{display:block}
 
-.section{
-padding:20px;
-display:none;
-}
+.card{background:#1e293b;padding:14px;margin-bottom:12px;border-radius:10px}
+.league{font-size:13px;color:#9ca3af;margin-bottom:6px}
+.teams{display:flex;justify-content:space-between;margin:6px 0}
+.team{font-size:16px}
+.score{font-size:18px;color:#facc15}
+.status{font-size:13px;color:#22c55e;margin-top:4px}
 
-.active{
-display:block;
-}
+.nav{position:fixed;bottom:0;width:100%;background:#020617;display:flex;justify-content:space-around;padding:10px 0}
+.nav button{background:none;border:none;color:white;font-size:16px}
 
-.card{
-background:#1e293b;
-padding:15px;
-margin-bottom:15px;
-border-radius:12px;
-box-shadow:0 0 10px rgba(0,0,0,0.35);
-}
-
-.team{
-font-size:18px;
-margin:4px 0;
-}
-
-.status{
-color:#22c55e;
-font-weight:bold;
-}
-
-.score{
-font-size:20px;
-color:#facc15;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-td,th{
-padding:8px;
-border-bottom:1px solid #333;
-text-align:left;
-}
-
-.nav{
-position:fixed;
-bottom:0;
-width:100%;
-background:#020617;
-display:flex;
-justify-content:space-around;
-padding:10px 0;
-}
-
-.nav button{
-background:none;
-color:white;
-font-size:16px;
-border:none;
-}
-
-.search{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:none;
-margin-top:10px;
-}
-
-</style></head><body><header>⚡ CricNext Pro</header><!-- HOME --><div id="home" class="section active"><div class="card"><h3>Trending Players</h3><button onclick="searchPlayer('virat kohli highlights')">Virat Kohli</button>
-<button onclick="searchPlayer('rohit sharma batting')">Rohit Sharma</button>
-<button onclick="searchPlayer('jasprit bumrah yorker')">Jasprit Bumrah</button>
-
-</div><div class="card"><h3>Quick Links</h3><button onclick="openSite('https://www.cricbuzz.com/cricket-match/live-scores')">
-Live Scores
-</button><button onclick="openSite('https://www.espncricinfo.com/cricket-news')">
-Cricket News
-</button></div></div><!-- LIVE MATCHES --><div id="live" class="section"><div class="card"><h3>Loading live matches...</h3></div></div><!-- POINTS TABLE --><div id="table" class="section"><div class="card"><h3>Sample Points Table</h3><table><tr>
-<th>Team</th>
-<th>P</th>
-<th>Pts</th>
-</tr><tr>
-<td>India</td>
-<td>5</td>
-<td>10</td>
-</tr><tr>
-<td>Australia</td>
-<td>5</td>
-<td>8</td>
-</tr><tr>
-<td>England</td>
-<td>5</td>
-<td>6</td>
-</tr></table></div></div><!-- VIDEOS --><div id="video" class="section"><div class="card"><h3>Search Cricket Highlights</h3><input id="searchBox" class="search" placeholder="Search player or match"><button onclick="searchVideo()">Search</button>
-
-</div></div><!-- NAV --><div class="nav"><button onclick="show('home')">Home</button>
-<button onclick="show('live')">Live</button>
-<button onclick="show('table')">Table</button>
-<button onclick="show('video')">Videos</button>
-
+.search{width:100%;padding:10px;border-radius:6px;border:none;margin-top:10px}
+button.primary{background:orange;border:none;padding:10px 18px;border-radius:6px;color:black;font-weight:bold;margin-top:10px}
+</style></head><body><header>⚡ CricNext Live</header><div class="tabs">
+<button id="tabLive" class="active" onclick="switchTab('live')">Live</button>
+<button id="tabRecent" onclick="switchTab('recent')">Recent</button>
+<button id="tabUpcoming" onclick="switchTab('upcoming')">Upcoming</button>
+</div><!-- LIVE --><div id="live" class="section active">
+<div class="card">Loading live matches...</div>
+</div><!-- RECENT --><div id="recent" class="section">
+<div class="card">Loading recent matches...</div>
+</div><!-- UPCOMING --><div id="upcoming" class="section">
+<div class="card">Loading upcoming matches...</div>
+</div><!-- VIDEOS --><div id="video" class="section">
+<div class="card">
+<h3>Search Cricket Highlights</h3>
+<input id="searchBox" class="search" placeholder="Search player or match">
+<button class="primary" onclick="searchVideo()">Search</button>
+</div>
+</div><!-- NAV --><div class="nav">
+<button onclick="showSection('live')">Live</button>
+<button onclick="showSection('recent')">Recent</button>
+<button onclick="showSection('upcoming')">Upcoming</button>
+<button onclick="showSection('video')">Videos</button>
 </div><script>
 
 const API_KEY="eec8a601-3746-4b6f-992f-ea00d5506fb8";
 
-function show(section){
-
-document.querySelectorAll('.section').forEach(s=>{
-s.classList.remove('active')
-})
-
-document.getElementById(section).classList.add('active')
-
+function showSection(id){
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
 }
 
-function searchPlayer(name){
-window.open("https://www.youtube.com/results?search_query="+name)
+function switchTab(id){
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+ document.getElementById("tab"+capitalize(id)).classList.add('active');
+ showSection(id);
 }
+
+function capitalize(t){return t.charAt(0).toUpperCase()+t.slice(1)}
 
 function searchVideo(){
-
-let q=document.getElementById("searchBox").value
-
-window.open("https://www.youtube.com/results?search_query="+q)
-
+ let q=document.getElementById("searchBox").value;
+ window.open("https://www.youtube.com/results?search_query="+q);
 }
 
-function openSite(url){
-window.open(url)
+function parseScore(scoreArr, team){
+ if(!Array.isArray(scoreArr)) return {txt:"—"};
+ let obj=scoreArr.find(s=>(s.inning||"").toLowerCase().includes(team.toLowerCase()))||scoreArr[0];
+ if(!obj) return {txt:"—"};
+ return {txt:`${obj.r}/${obj.w} (${obj.o} ov)`};
+}
+
+function cardHTML(m){
+ const tA=m.teams?.[0]||"Team A";
+ const tB=m.teams?.[1]||"Team B";
+ const sA=parseScore(m.score,tA).txt;
+ const sB=parseScore(m.score,tB).txt;
+
+ return `
+ <div class="card">
+   <div class="league">${m.series||""}</div>
+   <div class="teams">
+     <div class="team">${tA}</div>
+     <div class="score">${sA}</div>
+   </div>
+   <div class="teams">
+     <div class="team">${tB}</div>
+     <div class="score">${sB}</div>
+   </div>
+   <div class="status">${m.status||""}</div>
+ </div>`;
 }
 
 async function loadMatches(){
+ try{
+   let res=await fetch("https://api.cricketdata.org/v1/matches?apikey="+API_KEY);
+   let data=await res.json();
+   const arr=data.data||[];
 
-try{
+   const live=arr.filter(m=>/live|inning|break/i.test(m.status||""));
+   const recent=arr.filter(m=>/won|result|completed/i.test(m.status||""));
+   const upcoming=arr.filter(m=>/start|toss|scheduled|upcoming/i.test(m.status||""));
 
-let response=await fetch(
-"https://api.cricketdata.org/v1/matches?apikey="+API_KEY
-)
+   document.getElementById("live").innerHTML = live.length? live.slice(0,10).map(cardHTML).join("") : "<div class='card'>No live matches</div>";
+   document.getElementById("recent").innerHTML = recent.length? recent.slice(0,10).map(cardHTML).join("") : "<div class='card'>No recent matches</div>";
+   document.getElementById("upcoming").innerHTML = upcoming.length? upcoming.slice(0,10).map(cardHTML).join("") : "<div class='card'>No upcoming matches</div>";
 
-let data=await response.json()
-
-let html=""
-
-data.data.slice(0,8).forEach(match=>{
-
-html+=`
-
-<div class="card">
-
-<h3>${match.name}</h3>
-
-<div class="team">${match.teams[0]}</div>
-
-<div class="team">vs</div>
-
-<div class="team">${match.teams[1]}</div>
-
-<p class="status">${match.status}</p>
-
-</div>
-
-`
-
-})
-
-document.getElementById("live").innerHTML=html
-
-}catch(e){
-
-document.getElementById("live").innerHTML=
-"<div class='card'>Live data unavailable</div>"
-
+ }catch(e){
+   document.getElementById("live").innerHTML="<div class='card'>Live data unavailable</div>";
+ }
 }
 
-}
-
-loadMatches()
-
-setInterval(loadMatches,15000)
+loadMatches();
+setInterval(loadMatches,15000);
 
 </script></body>
 </html>

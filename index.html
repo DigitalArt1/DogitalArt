@@ -1,28 +1,147 @@
-<script>
+<!DOCTYPE html><html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CricNext Super</title><style>
 
-const API_KEY="eec8a601-3746-4b6f-992f-ea00d5506fb8"
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+}
+
+header{
+background:#16a34a;
+padding:14px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.tabs{
+display:flex;
+background:#020617;
+}
+
+.tabs button{
+flex:1;
+padding:12px;
+background:none;
+border:none;
+color:white;
+font-size:15px;
+}
+
+.section{
+display:none;
+padding:15px;
+}
+
+.active{
+display:block;
+}
+
+.card{
+background:#1e293b;
+padding:14px;
+margin-bottom:12px;
+border-radius:10px;
+}
+
+.teams{
+display:flex;
+justify-content:space-between;
+margin:6px 0;
+}
+
+.score{
+color:#facc15;
+font-size:17px;
+}
+
+.status{
+font-size:13px;
+color:#22c55e;
+}
+
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:#020617;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+}
+
+.nav button{
+background:none;
+border:none;
+color:white;
+font-size:15px;
+}
+
+.search{
+width:100%;
+padding:10px;
+border:none;
+border-radius:6px;
+margin-top:8px;
+}
+
+.primary{
+background:orange;
+border:none;
+padding:10px 16px;
+border-radius:6px;
+margin-top:8px;
+font-weight:bold;
+}
+
+</style></head><body><header>🏏 CricNext Super</header><div class="tabs"><button onclick="showTab('live')">Live</button>
+<button onclick="showTab('recent')">Recent</button>
+<button onclick="showTab('upcoming')">IPL</button>
+
+</div><div id="live" class="section active"><div class="card">Loading live matches...</div></div><div id="recent" class="section"><div class="card">Loading recent matches...</div></div><div id="upcoming" class="section"><div class="card">Loading IPL fixtures...</div></div><div id="video" class="section"><div class="card"><h3>Search Cricket Highlights</h3><input id="searchBox" class="search" placeholder="Virat Kohli six"><button class="primary" onclick="searchVideo()">Search</button>
+
+</div></div><div class="nav"><button onclick="showTab('live')">Live</button>
+<button onclick="showTab('recent')">Recent</button>
+<button onclick="showTab('upcoming')">IPL</button>
+<button onclick="showTab('video')">Videos</button>
+
+</div><script>
+
+const API_KEY="eec8a601-3746-4b6f-992f-ea00d5506fb8";
 
 function showTab(id){
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
-document.getElementById(id).classList.add("active")
+
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+
+document.getElementById(id).classList.add("active");
+
 }
 
 function searchVideo(){
-let q=document.getElementById("searchBox").value
-window.open("https://www.youtube.com/results?search_query="+q)
+
+let q=document.getElementById("searchBox").value;
+
+window.open("https://www.youtube.com/results?search_query="+q);
+
 }
 
 function scoreFormat(score){
-if(!score || score.length==0) return "-"
 
-let s=score[0]
+if(!score || score.length==0) return "-";
 
-return s.r+"/"+s.w+" ("+s.o+" ov)"
+let s=score[0];
+
+return s.r+"/"+s.w+" ("+s.o+" ov)";
+
 }
 
-function matchCard(match){
+function card(match){
 
-let score=scoreFormat(match.score)
+let score=scoreFormat(match.score);
 
 return `
 
@@ -47,57 +166,105 @@ return `
 
 </div>
 
-`
+`;
 
 }
 
-async function loadLiveMatches(){
+async function liveMatches(){
 
 try{
 
 let res=await fetch(
+
 "https://api.cricketdata.org/v1/currentMatches?apikey="+API_KEY
-)
 
-let json=await res.json()
+);
 
-let html=""
+let data=await res.json();
 
-json.data.forEach(m=>{
+let html="";
+
+data.data.forEach(m=>{
 
 if(m.status.toLowerCase().includes("live")){
-html+=matchCard(m)
+
+html+=card(m);
+
 }
 
-})
+});
 
 document.getElementById("live").innerHTML=
-html || "<div class='card'>No live matches</div>"
+
+html || "<div class='card'>No live matches</div>";
 
 }
 
-catch(e){
+catch{
 
 document.getElementById("live").innerHTML=
-"<div class='card'>Live data unavailable</div>"
+
+"<div class='card'>Live data unavailable</div>";
 
 }
 
 }
 
-async function loadIPLFixtures(){
+async function recentMatches(){
 
 try{
 
 let res=await fetch(
+
+"https://api.cricketdata.org/v1/currentMatches?apikey="+API_KEY
+
+);
+
+let data=await res.json();
+
+let html="";
+
+data.data.forEach(m=>{
+
+if(m.status.toLowerCase().includes("won")){
+
+html+=card(m);
+
+}
+
+});
+
+document.getElementById("recent").innerHTML=
+
+html || "<div class='card'>No recent matches</div>";
+
+}
+
+catch{
+
+document.getElementById("recent").innerHTML=
+
+"<div class='card'>Recent data unavailable</div>";
+
+}
+
+}
+
+async function iplFixtures(){
+
+try{
+
+let res=await fetch(
+
 "https://api.cricketdata.org/v1/series_matches?apikey="+API_KEY+"&series_id=ipl"
-)
 
-let json=await res.json()
+);
 
-let html=""
+let data=await res.json();
 
-json.data.forEach(m=>{
+let html="";
+
+data.data.forEach(m=>{
 
 html+=`
 
@@ -111,28 +278,31 @@ html+=`
 
 </div>
 
-`
+`;
 
-})
-
-document.getElementById("upcoming").innerHTML=
-html || "<div class='card'>No IPL fixtures</div>"
-
-}
-
-catch(e){
+});
 
 document.getElementById("upcoming").innerHTML=
-"<div class='card'>Fixtures unavailable</div>"
+
+html || "<div class='card'>No IPL fixtures</div>";
+
+}
+
+catch{
+
+document.getElementById("upcoming").innerHTML=
+
+"<div class='card'>Fixtures unavailable</div>";
 
 }
 
 }
 
-loadLiveMatches()
+liveMatches();
+recentMatches();
+iplFixtures();
 
-loadIPLFixtures()
+setInterval(liveMatches,20000);
 
-setInterval(loadLiveMatches,20000)
-
-</script>
+</script></body>
+</html>

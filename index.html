@@ -1,6 +1,6 @@
 <!DOCTYPE html><html>
 <head>
-<title>CricNext Ultra</title>
+<title>CricNext Live</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
 
 body{
@@ -16,6 +16,21 @@ padding:15px;
 text-align:center;
 font-size:22px;
 font-weight:bold;
+}
+
+.tabs{
+display:flex;
+justify-content:space-around;
+background:#020617;
+}
+
+.tabs button{
+flex:1;
+padding:12px;
+background:none;
+border:none;
+color:white;
+font-size:16px;
 }
 
 .section{
@@ -37,19 +52,11 @@ border-radius:10px;
 .teams{
 display:flex;
 justify-content:space-between;
-align-items:center;
 margin:5px 0;
 }
 
 .team{
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.team img{
-width:24px;
-height:24px;
+font-size:16px;
 }
 
 .score{
@@ -60,19 +67,6 @@ font-size:18px;
 .status{
 font-size:13px;
 color:#22c55e;
-}
-
-.tabs{
-display:flex;
-background:#020617;
-}
-
-.tabs button{
-flex:1;
-padding:12px;
-background:none;
-border:none;
-color:white;
 }
 
 .nav{
@@ -92,63 +86,50 @@ color:white;
 font-size:16px;
 }
 
-table{
+.search{
 width:100%;
-border-collapse:collapse;
-}
-
-td,th{
-padding:8px;
-border-bottom:1px solid #333;
-}
-
-.ad{
-background:#111827;
-text-align:center;
 padding:10px;
-margin:10px 0;
-border-radius:8px;
+border-radius:6px;
+border:none;
+margin-top:10px;
 }
 
-</style></head><body><header>⚡ CricNext Ultra</header><div class="tabs">
-<button onclick="show('live')">Live</button>
-<button onclick="show('table')">Points</button>
-<button onclick="show('video')">Videos</button>
-</div><!-- LIVE --><div id="live" class="section active"><div class="ad">
-Ad Space
-</div><div id="liveMatches"></div></div><!-- POINTS TABLE --><div id="table" class="section"><div class="card"><h3>Points Table</h3><table><tr>
-<th>Team</th>
-<th>P</th>
-<th>Pts</th>
-</tr><tr>
-<td>India</td>
-<td>5</td>
-<td>10</td>
-</tr><tr>
-<td>Australia</td>
-<td>5</td>
-<td>8</td>
-</tr><tr>
-<td>England</td>
-<td>5</td>
-<td>6</td>
-</tr></table></div></div><!-- VIDEOS --><div id="video" class="section"><div class="card"><h3>Search Highlights</h3><input id="searchBox" placeholder="Search player"><button onclick="searchVideo()">Search</button>
+button.primary{
+background:orange;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+color:black;
+font-weight:bold;
+margin-top:10px;
+}
 
-</div></div><div class="nav"><button onclick="show('live')">Live</button>
-<button onclick="show('table')">Points</button>
-<button onclick="show('video')">Videos</button>
+</style></head><body><header>⚡ CricNext Live</header><div class="tabs">
+<button onclick="showSection('live')">Live</button>
+<button onclick="showSection('recent')">Recent</button>
+<button onclick="showSection('upcoming')">Upcoming</button>
+</div><!-- LIVE --><div id="live" class="section active">
+<div class="card">Loading live matches...</div>
+</div><!-- RECENT --><div id="recent" class="section">
+<div class="card">Loading recent matches...</div>
+</div><!-- UPCOMING --><div id="upcoming" class="section">
+<div class="card">Loading upcoming matches...</div>
+</div><!-- VIDEOS --><div id="video" class="section"><div class="card"><h3>Search Cricket Highlights</h3><input id="searchBox" class="search" placeholder="Search player or match"><button class="primary" onclick="searchVideo()">Search</button>
+
+</div></div><div class="nav"><button onclick="showSection('live')">Live</button>
+<button onclick="showSection('recent')">Recent</button>
+<button onclick="showSection('upcoming')">Upcoming</button>
+<button onclick="showSection('video')">Videos</button>
 
 </div><script>
 
-const API_KEY="eec8a601-3746-4b6f-992f-ea00d5506fb8"
+const API_KEY="eec8a601-3746-4b6f-992f-ea00d5506fb8";
 
-function show(section){
+function showSection(id){
 
-document.querySelectorAll('.section').forEach(s=>{
-s.classList.remove('active')
-})
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'))
 
-document.getElementById(section).classList.add('active')
+document.getElementById(id).classList.add('active')
 
 }
 
@@ -160,21 +141,37 @@ window.open("https://www.youtube.com/results?search_query="+q)
 
 }
 
+function parseScore(scoreArr,team){
+
+if(!Array.isArray(scoreArr)) return "—"
+
+let obj=scoreArr[0]
+
+if(!obj) return "—"
+
+return obj.r+"/"+obj.w+" ("+obj.o+" ov)"
+
+}
+
 async function loadMatches(){
 
 try{
 
 let res=await fetch(
-"https://api.cricketdata.org/v1/matches?apikey="+API_KEY
+"https://api.cricketdata.org/v1/currentMatches?apikey="+API_KEY
 )
 
 let data=await res.json()
 
-let html=""
+let htmlLive=""
+let htmlRecent=""
+let htmlUpcoming=""
 
-data.data.slice(0,8).forEach(match=>{
+data.data.forEach(match=>{
 
-html+=`
+let score=parseScore(match.score)
+
+let card=`
 
 <div class="card">
 
@@ -182,17 +179,15 @@ html+=`
 
 <div class="teams">
 
-<div class="team">
-<img src="https://cdn-icons-png.flaticon.com/512/197/197374.png">
-${match.teams[0]}
+<div class="team">${match.teams[0]}</div>
+
+<div class="score">${score}</div>
+
 </div>
 
-<div class="score">vs</div>
+<div class="teams">
 
-<div class="team">
-<img src="https://cdn-icons-png.flaticon.com/512/197/197484.png">
-${match.teams[1]}
-</div>
+<div class="team">${match.teams[1]}</div>
 
 </div>
 
@@ -202,13 +197,27 @@ ${match.teams[1]}
 
 `
 
+if(match.status.toLowerCase().includes("live")){
+htmlLive+=card
+}
+
+else if(match.status.toLowerCase().includes("won")){
+htmlRecent+=card
+}
+
+else{
+htmlUpcoming+=card
+}
+
 })
 
-document.getElementById("liveMatches").innerHTML=html
+document.getElementById("live").innerHTML=htmlLive||"<div class='card'>No live matches</div>"
+document.getElementById("recent").innerHTML=htmlRecent||"<div class='card'>No recent matches</div>"
+document.getElementById("upcoming").innerHTML=htmlUpcoming||"<div class='card'>No upcoming matches</div>"
 
 }catch(e){
 
-document.getElementById("liveMatches").innerHTML="Error loading matches"
+document.getElementById("live").innerHTML="<div class='card'>Live data unavailable</div>"
 
 }
 

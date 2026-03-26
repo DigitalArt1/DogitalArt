@@ -1,114 +1,114 @@
-<script>
+<!DOCTYPE html><html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CricNext Super</title><style>
 
-const API_KEY="eec8a601-3746-4b6f-992f-ea00d5506fb8"
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+}
 
-async function loadLive(){
+header{
+background:#16a34a;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
 
-let container=document.getElementById("live")
+.tabs{
+display:flex;
+background:#020617;
+}
 
-container.innerHTML="Loading..."
+.tabs button{
+flex:1;
+padding:12px;
+background:none;
+border:none;
+color:white;
+font-size:15px;
+}
 
-try{
+.section{
+display:none;
+padding:10px;
+}
 
-let res=await fetch(
-"https://api.cricketdata.org/v1/currentMatches?apikey="+API_KEY
-)
+.active{
+display:block;
+}
 
-let data=await res.json()
+iframe{
+width:100%;
+height:650px;
+border:none;
+border-radius:10px;
+}
 
-if(!data || !data.data){
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:#020617;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+}
 
-container.innerHTML="No data from API"
-return
+.nav button{
+background:none;
+border:none;
+color:white;
+font-size:15px;
+}
+
+.search{
+width:100%;
+padding:10px;
+border-radius:6px;
+border:none;
+margin-top:10px;
+}
+
+.primary{
+background:orange;
+border:none;
+padding:10px 16px;
+border-radius:6px;
+margin-top:10px;
+font-weight:bold;
+}
+
+</style></head><body><header>🏏 CricNext Super</header><div class="tabs"><button onclick="showTab('live')">Live</button>
+<button onclick="showTab('ipl')">IPL</button>
+<button onclick="showTab('video')">Videos</button>
+
+</div><!-- LIVE SCORE --><div id="live" class="section active"><iframe src="https://www.cricbuzz.com/cricket-match/live-scores"></iframe></div><!-- IPL FIXTURES --><div id="ipl" class="section"><iframe src="https://www.cricbuzz.com/cricket-series/ipl-2026/matches"></iframe></div><!-- VIDEO SEARCH --><div id="video" class="section"><h3>Search Cricket Highlights</h3><input id="searchBox" class="search" placeholder="Virat Kohli six"><button class="primary" onclick="searchVideo()">Search</button>
+
+</div><div class="nav"><button onclick="showTab('live')">Live</button>
+<button onclick="showTab('ipl')">IPL</button>
+<button onclick="showTab('video')">Videos</button>
+
+</div><script>
+
+function showTab(id){
+
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
+
+document.getElementById(id).classList.add("active")
 
 }
 
-let html=""
+function searchVideo(){
 
-data.data.forEach(m=>{
+let q=document.getElementById("searchBox").value
 
-html+=`
-
-<div class="card">
-
-<h3>${m.name}</h3>
-
-<p>${m.teams.join(" vs ")}</p>
-
-<p>${m.status}</p>
-
-</div>
-
-`
-
-})
-
-container.innerHTML=html
+window.open("https://www.youtube.com/results?search_query="+q)
 
 }
 
-catch(err){
-
-container.innerHTML="API Error"
-
-}
-
-}
-
-async function loadIPL(){
-
-let box=document.getElementById("upcoming")
-
-box.innerHTML="Loading IPL fixtures..."
-
-try{
-
-let res=await fetch(
-"https://api.cricketdata.org/v1/series_matches?apikey="+API_KEY+"&series_id=ipl"
-)
-
-let data=await res.json()
-
-let html=""
-
-if(data.data){
-
-data.data.forEach(m=>{
-
-html+=`
-
-<div class="card">
-
-<h3>${m.name}</h3>
-
-<p>${m.teams.join(" vs ")}</p>
-
-<p>${m.date}</p>
-
-</div>
-
-`
-
-})
-
-}
-
-box.innerHTML=html || "No fixtures"
-
-}
-
-catch{
-
-box.innerHTML="Fixtures error"
-
-}
-
-}
-
-loadLive()
-
-loadIPL()
-
-setInterval(loadLive,20000)
-
-</script>
+</script></body>
+</html>
